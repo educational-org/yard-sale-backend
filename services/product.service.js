@@ -7,7 +7,7 @@ class ProductsService {
     this.generate();
   }
 
-  generate(){
+  async generate(){
     const limit = 100;
 
     for (let index = 0; index < limit; index++) {
@@ -20,7 +20,7 @@ class ProductsService {
     }
   }
 
-  create(data){
+  async create(data){
     const newProduct = {
       id : faker.datatype.uuid(),
       ...data //split operation para concatenar valores que llegan.
@@ -29,20 +29,34 @@ class ProductsService {
     return newProduct;
   }
 
-  find(){
+  async find(){
     return this.products;
   }
 
-  findOne(id){
+  async findOne(id){
     return this.products.find(item => item.id === id);
   }
 
-  update(){
-
+  async update(id, changes){
+    const index = this.products.findIndex(item => item.id == id);
+    if(index === -1){
+      throw new Error('product not found');
+    }
+    const product = this.products[index];
+    this.products[index] = { //nos quedamos con los datos que hayan en el producto y actualizamos los cambios
+      ...product,
+      ...changes
+    };
+    return this.products[index];
   }
 
-  delete(){
-
+  async delete(id){
+    const index = this.products.findIndex(item => item.id == id);
+    if(index === -1){
+      throw new Error('product not found');
+    }
+    this.products.splice(index,1); //elimina un elemento a partir de la posición index
+    return { id };
   }
 }
 module.exports= ProductsService;
