@@ -1,19 +1,38 @@
 const express = require('express'); // Importing the express module
 const routerApi = require('./routes');
+const cors = require('cors');
+const { errorHandler, logErrors, boomErrorHandler } = require('./middlewares/error.handler');
 
 const app = express(); //creating a new express app
-const port = 6969;
+const port = process.env.PORT || 3000;
 
-app.use(express.json()) //middleware for post requests
+app.use(express.json()); //middleware for post requests
+
+// CORS >>>>>
+const white_list = ["http://localhost:8080", "https://myapp.com"];
+const options = {
+  origin: (origin, cb)=>{
+    if(white_list.includes(origin) || !origin ){
+      cb(null,true);
+    }else{
+      cb(new Error("no permitido"),)
+    }
+  }
+}
+app.use(cors(options));
+//CORS >>>>>
 
 app.get('/', (req, res) => {
-  //setting an address where to launch and we send a message.
-  res.send('Hello this is my first server');
+  res.send('SERVER HOME');
 });
 
 routerApi(app);
 
-app.listen(port || 3000, () => {
-  // Setting the port we're gonna use.
+//Middlewares
+app.use(logErrors);
+app.use(boomErrorHandler);
+app.use(errorHandler);
+
+app.listen(port, () => {  // Setting the port we're gonna use.
   console.table({ PORT: 'Running in http://localhost:' + port + '/' });
 });
