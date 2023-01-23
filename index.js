@@ -1,7 +1,7 @@
 const express = require('express'); // Importing the express module
 const routerApi = require('./routes');
 const cors = require('cors');
-const { errorHandler, logErrors, boomErrorHandler } = require('./middlewares/error.handler');
+const { errorHandler, logErrors, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler');
 
 const app = express(); //creating a new express app
 const port = process.env.PORT || 3000;
@@ -30,6 +30,7 @@ routerApi(app);
 
 //Middlewares
 app.use(logErrors);
+app.use(ormErrorHandler)
 app.use(boomErrorHandler);
 app.use(errorHandler);
 
