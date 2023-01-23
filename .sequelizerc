@@ -1,0 +1,7 @@
+module.exports = {
+  'config' : './db/config.js', //conexión propia independiente a la base de datos.
+  'models-path':'./db/models/', //ubicación de modelos
+  'migrations-path': './db/migrations/', //ubicación de migraciones
+  'seeders-path': './db/seeders/', //ubicación de semillas de información
+
+}
