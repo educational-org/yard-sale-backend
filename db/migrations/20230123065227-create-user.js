@@ -4,11 +4,11 @@ const { USER_TABLE , UserSchema } = require('./../models/user.models'); //import
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up (queryInterface) {
     await queryInterface.createTable(USER_TABLE, UserSchema) //indicamos qué tabla y con qué schema la va a crear
   },
 
-  async down (queryInterface, Sequelize) {
-    await queryInterface.drop(USER_TABLE); // para revertir lo que se hace en el up
+  async down (queryInterface) {
+    await queryInterface.dropTable(USER_TABLE); // para revertir lo que se hace en el up
   }
 };

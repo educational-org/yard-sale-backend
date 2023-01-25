@@ -1,6 +1,7 @@
 const express = require('express'); // Importing the express module
 const routerApi = require('./routes');
 const cors = require('cors');
+const { checkApiKey } = require('./middlewares/auth.handler');
 const { errorHandler, logErrors, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler');
 
 const app = express(); //creating a new express app
@@ -25,6 +26,13 @@ app.use(cors(options));
 app.get('/', (req, res) => {
   res.send('SERVER HOME');
 });
+
+app.get('/newroute',
+  checkApiKey,
+  (req, res) => {
+    res.send('SERVER HOME');
+  }
+);
 
 routerApi(app);
 

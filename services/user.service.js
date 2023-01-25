@@ -1,17 +1,25 @@
 const Boom = require('@hapi/boom');
 const {models}= require('../libs/sequelize');
+const bcrypt = require('bcrypt');
 
 class UserService {
   constructor() {
   }
 
   async create(data) {
-    const newUser = await models.User.create(data)
+    const hash = await bcrypt.hash(data.password,10);
+    const newUser = await models.User.create({
+      ...data,
+      password:hash
+    });
+    delete newUser.dataValues.password;
     return newUser;
   }
 
   async find() {
-    const response = await models.User.findAll(); //Traiga todo lo de la tabla del modelo User
+    const response = await models.User.findAll({
+      include: ['customer']
+    }); //Traiga todo lo de la tabla del modelo User
     return response;
   }
 
