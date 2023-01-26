@@ -1,5 +1,7 @@
 "use strict";
+const { config } = require('./config/config');
 const nodemailer = require("nodemailer");
+
 
 // async..await is not allowed in global scope, must use a wrapper
 async function sendMain() {
@@ -10,15 +12,15 @@ async function sendMain() {
     port: 465,
     secure: true, // true for 465, false for other ports
     auth: {
-      user: 'juanccampo95@gmail.com',
-      pass: 'kekdkfhgxebjliio'
+      user: config.mailSender,
+      pass:config.passMailSender,
   }
   });
 
   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: 'juanccampo95@gmail.com', // sender address
-    to: "juandesigner95@gmail.com", // list of receivers
+    from: config.mailSender, // sender address
+    to: config.mailSender, // list of receivers
     subject: "NUEVO CORREO DE APP CON NODE ✔", // Subject line
     text: "Hello world?", // plain text body
     html: "<b>Hello world?</b>", // html body
