@@ -32,17 +32,6 @@ const OrderSchema = {
     field: 'updated_at',
     defaultValue: Sequelize.NOW
   },
-  total:{
-    type: DataTypes.VIRTUAL,
-    get(){
-      if(this.items.length > 0){
-        return this.items.reduce((total,item)=>{
-          return total + (item.price * item.OrderProduct.amount); //total que es el acomulativo, más el precio por la cantidad.
-        },0);
-      }
-      return 0;
-    }
-  }
 }
 
 class Order extends Model {

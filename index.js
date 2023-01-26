@@ -22,6 +22,7 @@ const options = {
 }
 app.use(cors(options));
 //CORS >>>>>
+require('./utils/auth');//PASSPORT AUTHENTICATION
 
 app.get('/', (req, res) => {
   res.send('SERVER HOME');
